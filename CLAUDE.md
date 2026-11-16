@@ -43,12 +43,13 @@ Never claim a Swift change compiles without a green CI run.
 - `CameraAccess/CameraAccess/ViewModels/CameraViewModel.swift` — DAT session/stream
   lifecycle, photo capture (`stream.capturePhoto(format: .jpeg)`), `handlePhotoData`
   saves to Drive.
-- `CameraAccess/CameraAccess/Upload/DriveFolderStore.swift` — folder bookmark +
+- `CameraAccess/CameraAccess/ViewModels/DriveFolderStore.swift` — folder bookmark +
   coordinated write into the File Provider (Google Drive).
 - `CameraAccess/CameraAccess/Views/CameraView.swift` — UI, incl. `driveFolderButton`.
-- The Xcode project uses file-system synchronized groups: new `.swift` files inside
-  `CameraAccess/CameraAccess/` are picked up automatically — do not hand-edit
-  `project.pbxproj` unless unavoidable.
+- The app target uses **explicit file references** (only the test targets use
+  synchronized groups). Every new `.swift` file in the app must be added to
+  `project.pbxproj` in 4 places: PBXBuildFile, PBXFileReference, its PBXGroup
+  `children`, and the app target's Sources build phase (see `DriveFolderStore.swift`).
 
 ## Swift / DAT conventions
 - Swift 6 strict concurrency: view models are `@MainActor @Observable`; SDK publishers
