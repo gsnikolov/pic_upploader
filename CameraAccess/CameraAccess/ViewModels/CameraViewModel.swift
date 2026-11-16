@@ -471,9 +471,24 @@ final class CameraViewModel {
     // still emit teardown errors while that stop converges, and surfacing those
     // would show a false "something went wrong" alert on return.
     guard !isStoppingForBackground else { return }
-    // All session errors surface through the single alert, including
-    // `datAppOnTheGlassesUpdateRequired`, which the SDK delivers as a one-shot event.
+    // The DAT app on the glasses is outdated: open Meta AI straight at the
+    // glasses-app update instead of only showing an alert.
+    if case .datAppOnTheGlassesUpdateRequired = error {
+      Task { await openGlassesAppUpdate() }
+      return
+    }
     showError(error.localizedDescription)
+  }
+
+  /// Opens the Meta AI app at the DAT glasses-app update screen.
+  func openGlassesAppUpdate() async {
+    do {
+      try await wearables.openDATGlassesAppUpdate()
+    } catch {
+      showError(
+        "The app on your glasses needs an update. Open Meta AI → your glasses → check for updates. (\(error.localizedDescription))"
+      )
+    }
   }
 
   /// Terminal session cleanup — drop the reference and observers so the next
