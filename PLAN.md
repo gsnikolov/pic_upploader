@@ -20,10 +20,10 @@
 
 ## Фаза 0: Repo ✅ (подготвено)
 - [x] Fork на `CameraAccess` с `DriveFolderStore` и бутон за избор на папка
-- [x] `.github/workflows/build-ipa.yml`
+- [x] `.github/workflows/build-ipa.yml` (unsigned build на `macos-26`, Xcode 26.6)
 - [x] `CLAUDE.md`, `PLAN.md`
 
-## Фаза 1: Зелен CI build
+## Фаза 1: Зелен CI build ✅ (16.11.2026)
 **Задачи (Claude):**
 1. Push към `main` → проследяване на workflow-а (`gh run watch`).
 2. Оправяне на compile грешки, ако има: Swift 6 concurrency, липсващи imports, версия на Xcode.
